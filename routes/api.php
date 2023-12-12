@@ -34,11 +34,11 @@ Route::get('/usuarioss', [UserController::class, 'index']);
 Route::get('/usuarioss/{$id}', [UserController::class, 'show']);
 
 // rutas protegidas por token
-Route::middleware(['auth:sanctum'])->group(function () {
+//Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('pistas', PistaController::class);
     Route::apiResource('reservas', ReservaController::class);
     Route::apiResource('pagos', PagoController::class);
     //para el logout
     Route::get('auth/logout', [AuthController::class, 'logout']);
-});
+//});

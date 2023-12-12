@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('apellidos', 50)->nullable();
-            $table->dateTime('fecha_nacimiento')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
             $table->string('sexo', 45)->nullable();
             $table->string('direccion_postal', 200)->nullable();
             $table->string('municipio', 50)->nullable();
             $table->string('provincia', 50)->nullable();
             $table->string('imagen_perfil', 100)->nullable();
             $table->string('numero_socio')->unique()->nullable();
-            $table->dateTime('fecha_alta')->nullable();
-            $table->dateTime('fecha_baja')->nullable();
+            $table->date('fecha_alta')->nullable();
+            $table->date('fecha_baja')->nullable();
             $table->string('es_admin', 2)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

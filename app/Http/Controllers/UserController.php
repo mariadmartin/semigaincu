@@ -66,10 +66,10 @@ class UserController extends Controller
             request()->validate([
                 'name' => 'string|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|max:100',
                 'apellidos' => 'string|regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/',
-                'email' => 'string|email:rfc,dns|unique:users',
-                'password' => 'string|min:8',
-                'numero_socio' => 'unique:users',
-                'fecha_alta' => 'date',
+                //'email' => 'string|email:rfc,dns|unique:users',
+                //'password' => 'string|min:8',
+                //'numero_socio' => 'unique:users',
+                //'fecha_alta' => 'date',
                 'es_admin' => 'string|min:1|max:2',
                 'sexo' => 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'
             ]);

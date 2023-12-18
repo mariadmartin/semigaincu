@@ -60,7 +60,7 @@ class PasswordResetTokenController extends Controller
         PasswordResetToken::where('created_at', '<=', $formatted)->delete();
 
         $request->validate([
-            'password' => 'required|confirmed',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $passwordreset = PasswordResetToken::where('token', $token)->first();

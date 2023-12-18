@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate;
+
 
 class UserController extends Controller
 {
@@ -93,4 +95,19 @@ class UserController extends Controller
             return ApiResponse::error('Usuario no encontrada ', 404);
         }
     }
+
+
+    // Obtener el usuario actual
+    /* public function userActual(){
+
+        //dd(Auth::user());
+        //return response()->json(Auth::user());
+
+        try {
+            $actualUser = auth()->user();
+            return response()->json($actualUser);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    } */
 }

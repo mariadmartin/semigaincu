@@ -34,11 +34,21 @@ class UserController extends Controller
                 'email' => 'required|string|email:rfc,dns|unique:users',
                 'password' => 'required|string|min:8',
                 'numero_socio' => 'required|unique:users',
-                'fecha_alta' => 'required',
                 'es_admin' => 'required|string|min:1|max:2',
                 'sexo' => 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'
             ]);
-            $usuarios = User::create($request->all());
+            $usuarios = User::create([
+                "name" => $request->name,
+                "apellidos" => $request->apellidos,
+                "email" => $request->email,
+                "password" => Hash::make($request->password),
+                "es_admin" => $request->es_admin,
+                "sexo"=> $request->sexo,
+                "fecha_nacimineto"=> $request->fecha_nacimiento,
+                "direccion_postal"=> $request->direccion_postal,
+                "municipio"=> $request->municipio,
+                "provincia"=> $request->provincia
+            ]);
             return ApiResponse::success('Usuario creado', 200, $usuarios);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();

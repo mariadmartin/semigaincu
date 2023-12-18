@@ -28,8 +28,15 @@ class AuthController extends Controller
         }
         $user = User::create([
             "name" => $request->name,
+            "apellidos" => $request->apellidos,
             "email" => $request->email,
-            "password" => Hash::make($request->password)
+            "password" => Hash::make($request->password),
+            "es_admin" => $request->es_admin,
+            "sexo"=> $request->sexo,
+            "fecha_nacimineto"=> $request->fecha_nacimiento,
+            "direccion_postal"=> $request->direccion_postal,
+            "municipio"=> $request->municipio,
+            "provincia"=> $request->provincia
         ]);
 
         return response()->json([
@@ -43,7 +50,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $rules = [
-            "email" => "required|string|email|max:100",
+            "name" => "required|string|max:100",
             "password" => "required|string",
         ];
 
@@ -55,13 +62,13 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('name', 'password'))) {
             return response()->json([
                 "status" => false,
                 "errors" => ['Unauthorized'],
             ], 401);
         }
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('name', $request->name)->first();
         return response()->json([
             "status" => true,
             "message" => "User logged in successfully",

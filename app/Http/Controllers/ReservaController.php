@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
+use App\Models\Pista;
+use App\Models\Pago;
 use Illuminate\Http\Request;
 use App\Http\Responses\ApiResponse;
 use Exception;
@@ -44,10 +46,29 @@ class ReservaController extends Controller
             request()->validate([
                 'fecha_reserva' => 'required',
                 'hora_reserva' => 'required',
-                'user_id' => 'required|exists:users,id',
-                'pista_id' => 'required|exists:pistas,id',
+                'user_id' => 'required|exists:users,id'
             ]);
-            $reserva = Reserva::create($request->all());
+            $data = json_decode($request->getContent());
+            $tipoPista = $data->tipo_pista;
+            $numPista = $data->num_pista;
+
+            $precio_reserva = 6;
+
+            $pista = Pista::where('tipo_pista', '=', $tipoPista)->where('num_pista', '=', $numPista)->first();
+            $pistaId = $pista->id;
+            $reserva = Reserva::create([
+                "fecha_reserva" => $request->fecha_reserva,
+                "hora_reserva" => $request->hora_reserva,
+                "tiene_luz" => $request->tiene_luz == 1 ? "SI": "NO",
+                "user_id" => $request->user_id,
+                "pista_id" => $pistaId
+            ]);
+            Pago::Create([
+                "cantidad" => $precio_reserva,
+                "pagado" => $request->pagado == 1 ? "SI": "NO",
+                "user_id" => $request->user_id,
+                "reserva_id" => $reserva->id
+            ]);
             return ApiResponse::success('Reserva creada', 201, $reserva);
         } catch (ValidationException $e) {
             return ApiResponse::error('Error al crear reserva: ' . $e->getMessage(), 422);
@@ -103,5 +124,24 @@ class ReservaController extends Controller
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('Reserva no encontrada', 404);
         }
+    }
+
+
+    public function horasReserva(Request $request){
+        $data = json_decode($request->getContent());
+        $fechaReserva = $data->fecha_reserva;
+        $tipoPista = $data->tipo_pista;
+        $numPista = $data->num_pista;
+
+        try{
+            $pista = Pista::where('tipo_pista', '=', $tipoPista)->where('num_pista', '=', $numPista)->first();
+            $pistaId = $pista->id;
+            $horasReserva = Reserva::where('fecha_reserva', '=', $fechaReserva)
+            ->where('pista_id', '=', $pistaId )->get();
+            return ApiResponse::success('Horas reservadas', 200, $horasReserva);
+        }catch (ModelNotFoundException $e) {
+            return ApiResponse::error('No hay horas de reserva', 404);
+        }
+
     }
 }

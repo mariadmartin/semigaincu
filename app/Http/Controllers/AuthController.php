@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $rules = [
-            "name" => "required|string|max:100",
+            "email" => "required|string|max:100",
             "password" => "required|string",
         ];
 
@@ -62,13 +62,13 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if (!Auth::attempt($request->only('name', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 "status" => false,
                 "errors" => ['Unauthorized'],
             ], 401);
         }
-        $user = User::where('name', $request->name)->first();
+        $user = User::where('email', $request->email)->first();
         return response()->json([
             "status" => true,
             "message" => "User logged in successfully",

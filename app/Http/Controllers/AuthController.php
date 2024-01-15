@@ -33,7 +33,7 @@ class AuthController extends Controller
             "password" => Hash::make($request->password),
             "es_admin" => $request->es_admin,
             "sexo"=> $request->sexo,
-            "fecha_nacimineto"=> $request->fecha_nacimiento,
+            "fecha_nacimiento"=> $request->fecha_nacimiento,
             "direccion_postal"=> $request->direccion_postal,
             "municipio"=> $request->municipio,
             "provincia"=> $request->provincia

@@ -26,17 +26,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 
 //ruta de registro
-Route::post('auth/register', [AuthController::class, 'create']);
-//ruta login
-Route::post('auth/login', [AuthController::class, 'login']);
+    // Aquí van las rutas a las que se permitirá acceso
+    Route::post('auth/register', [AuthController::class, 'create']);
+    //ruta login
+    Route::post('auth/login', [AuthController::class, 'login']);
 
-// rutas protegidas por token
-//Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('usuarios', UserController::class);
-    Route::apiResource('pistas', PistaController::class);
-    Route::apiResource('reservas', ReservaController::class);
-    Route::apiResource('pagos', PagoController::class);
-    Route::post('/reserva/horas', [ReservaController::class, 'horasReserva']);
-    //para el logout
-    Route::get('auth/logout', [AuthController::class, 'logout']);
-//});
+    // rutas protegidas por token
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::apiResource('usuarios', UserController::class);
+        Route::apiResource('pistas', PistaController::class);
+        Route::apiResource('reservas', ReservaController::class);
+        Route::apiResource('pagos', PagoController::class);
+        Route::post('/reserva/horas', [ReservaController::class, 'horasReserva']);
+        //para el logout
+        Route::get('auth/logout', [AuthController::class, 'logout']);
+    });

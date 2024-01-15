@@ -63,6 +63,9 @@ class ReservaController extends Controller
                 "user_id" => $request->user_id,
                 "pista_id" => $pistaId
             ]);
+            if($request->tiene_luz == 1){
+                $precio_reserva = $precio_reserva + 1;
+            }
             Pago::Create([
                 "cantidad" => $precio_reserva,
                 "pagado" => $request->pagado == 1 ? "SI": "NO",

@@ -12,7 +12,7 @@
     <h1>Ha solicitado restablecer su contraseña</h1>
     <hr>
     <p>No podemos enviarle su contraseña antigua por seguridad. Se ha generado un enlace para que pueda restablecer su contraseña, para ello haga click en el siguiente enlace y siga las instrucciones.</p>
-    <h1><a href="http://127.0.0.1:3000/api/auth/reset/{{$token}}">Haga Click aqui para Restablecer su Password</a></h1>
+    <h1><a href="http://localhost:4200/inicio?token={{$token}}">Haga Click aqui para Restablecer su Password</a></h1>
 </body>
 
 </html>

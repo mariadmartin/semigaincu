@@ -113,4 +113,22 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function correo_exist(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response([
+                'message' => 'El correo introducido no existe',
+                'status' => 'failed'
+            ], 404);
+        }
+        return response([
+            'message' => 'correo existe',
+            'status' => 'succes'
+        ], 200);
+    }
+
 }

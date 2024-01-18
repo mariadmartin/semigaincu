@@ -49,18 +49,19 @@ class PasswordResetTokenController extends Controller
 
         return response([
             'message' => 'Password Reset Email Sent... Check Your Email',
-            'status' => 'success'
+            'status' => 'success',
+            'token' => $token
         ], 200);
     }
 
     public function reset(Request $request, $token)
     {
         // Delete Token older than 2 minute
-        $formatted = Carbon::now()->subMinutes(2)->toDateTimeString();
+        $formatted = Carbon::now()->subMinutes(60)->toDateTimeString();
         PasswordResetToken::where('created_at', '<=', $formatted)->delete();
 
         $request->validate([
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string',
         ]);
 
         $passwordreset = PasswordResetToken::where('token', $token)->first();

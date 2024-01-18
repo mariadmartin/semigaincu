@@ -32,6 +32,7 @@ Route::post('auth/register', [AuthController::class, 'create']); //ruta de regis
 Route::post('auth/login', [AuthController::class, 'login']); //ruta login
 Route::post('auth/send-reset-password-email', [PasswordResetTokenController::class, 'send_reset_password_email']);
 Route::post('auth/reset-password/{token}', [PasswordResetTokenController::class, 'reset']);
+Route::post('auth/mail-validator', [AuthController::class, 'correo_exist']);
 
 Route::get('usuarioss', [UserController::class, 'index']);
 Route::get('usuarioss/{$id}', [UserController::class, 'show']);

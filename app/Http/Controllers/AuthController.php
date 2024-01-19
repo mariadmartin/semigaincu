@@ -80,10 +80,55 @@ class AuthController extends Controller
     // metodo para cerrar sesion - elimina los tokens generados por el usualrio
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        //$request->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->delete();
         return response()->json([
             "status" => true,
             "message" => "User logged out successfully",
         ], 200);
     }
+
+    // metodo para comprobar el usuario que esta autenticado
+    public function logged_user()
+    {
+        $loggeduser = Auth::user();
+        return response()->json([
+            'user' => $loggeduser,
+            'status' => true,
+            'message' => 'Logged User Data'
+        ], 200);
+    }
+
+    public function change_password(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed',
+        ]);
+        $loggeduser = Auth::user();
+        $loggeduser->password = Hash::make($request->password);
+        $loggeduser->save();
+        return response([
+            'message' => 'Password Changed Successfully',
+            'status' => 'success'
+        ], 200);
+    }
+
+    public function correo_exist(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response([
+                'message' => 'El correo introducido no existe',
+                'status' => 'failed'
+            ], 404);
+        }
+        return response([
+            'message' => 'correo existe',
+            'status' => 'succes'
+        ], 200);
+    }
+
 }

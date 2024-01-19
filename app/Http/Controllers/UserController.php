@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use PhpParser\Node\Expr\Cast\String_;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate;
+
 
 class UserController extends Controller
 {
@@ -104,3 +106,4 @@ class UserController extends Controller
         }
     }
 }
+
